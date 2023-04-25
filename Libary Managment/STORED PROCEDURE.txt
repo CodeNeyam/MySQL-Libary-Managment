@@ -1,0 +1,112 @@
+We will be storing all the important procudure we may need in this database 
+
+
+
+1-Let see how many books are owned (with a title) in a specific libary branch 
+	Example : 
+--How many copies of the book titled "The Lost Tribe" are owned by the library branch whose name is "Sharpstown"?
+
+DELIMITER // 
+CREATE PROCEDURE GetCopyBook() 
+BEGIN 
+SELECT copies.Copy_BranchID AS 'Branch ID', libarybranch.Branch_Name AS 'Branch Name',
+copies.Copy_None AS 'Number_Of_Copies',
+books.Book_Title AS 'Book_Title'
+	FROM bookcopies AS copies
+		INNER JOIN books ON copies.Copy_BookID = books.BookID
+		INNER JOIN libarybranch ON copies.Copy_BranchID = libarybranch.BranchID
+    WHERE books.Book_Title = 'The Lost Tribe' AND libarybranch.Branch_Name = 'Sharpstown' ; 
+END //    
+DELIMITER ;
+
+CALL GetCopyBook();
+
+
+
+2-Let see how many copies of the book titled are owned by each libary branch
+	Example : 
+--2- How many copies of the book titled "The Lost Tribe" are owned by each library branch?
+
+DELIMITER //
+CREATE PROCEDURE GetCopyBookInBranches() 
+BEGIN 
+SELECT copies.Copy_BranchID AS 'Branch ID', libarybranch.Branch_Name AS 'Branch Name',
+copies.Copy_None AS 'Number_Of_Copies',
+books.Book_Title AS 'Book_Title'
+FROM bookcopies AS copies 
+	INNER JOIN books ON copies.Copy_BookID = books.BookID
+	INNER JOIN libarybranch ON copies.Copy_BranchID = libarybranch.BranchID 
+WHERE books.Book_Title = 'The Lost Tribe';
+END // 
+DELIMITER ;
+
+CALL GetCopyBookInBranches();
+
+
+3-Let retrieve the names of all borrowers who dot have any books checked out 
+
+DELIMITER //
+CREATE PROCEDURE NoLoans() 
+BEGIN 
+SELECT Borrower_Name FROM borrower 
+WHERE NOT EXISTS (
+	SELECT * FROM bookloans 
+    WHERE loans_CardID = borrower.CardID 
+);
+END
+DELIMITER ;
+
+CALL NoLoans();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,19 @@
+----------------------Some Quiers we will be using in this database that must be understandble ---------------------
+
+
+
+
+CONSTRAINT : 
+
+- We use CONSTRAINT to specify rules for the data in a table 
+
+
+CASCADE : 
+
+-It means if I made any changes on the parent table the child table will have the same changes 
+
+
+IDENTITY (1,1) :
+
+-First the IDENTITY Keyword represent the auto-increment feature  
+-(1,1) The starting value of the keyword will be 1 and it will increment by 1 each new record

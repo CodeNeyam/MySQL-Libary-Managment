@@ -1,0 +1,79 @@
+---------------------------------------------CREATE 7 TABLES-------------------------------------------------
+
+
+
+1)-Publisher : 
+
+CREATE TABLE Publisher (
+		PublisherName VARCHAR(255) PRIMARY KEY NOT NULL,
+		PublisherAddress VARCHAR(255) NOT NULL,
+		PublisherPhone VARCHAR(50) NOT NULL
+);
+
+
+2)-Books : 
+
+CREATE TABLE Books(
+		BookID INT PRIMARY KEY NOT NULL auto_increment,
+		Book_Title VARCHAR(255) NOT NULL,
+		Book_PublisherName VARCHAR(100) NOT NULL,
+                PublisherName1 VARCHAR(255) NOT NULL,
+		FOREIGN KEY (Book_PublisherName) REFERENCES Publisher(PublisherName) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+3)-LibaryBranch : 
+
+CREATE TABLE LibaryBranch(
+		BranchID INT PRIMARY KEY NOT NULL auto_increment,
+		Branch_Name VARCHAR(255) NOT NULL,
+		Branch_Address VARCHAR(255) NOT NULL
+);
+
+4)-Borrower : 
+
+CREATE TABLE Borrower (
+		CardID INT PRIMARY KEY NOT NULL auto_increment,
+		Borrower_Name VARCHAR(255) NOT NULL,
+		Borrower_Address VARCHAR(255) NOT NULL,
+		Borrower_Phone VARCHAR(50) NOT NULL
+);
+
+ALTER table Borrower auto_increment = 100; (Start the auto_increment count from 100)
+
+
+5)-BookLoans : 
+
+CREATE TABLE BookLoans (
+		LoansID INT PRIMARY KEY NOT NULL auto_increment,
+		loans_BookID INT NOT NULL,
+		loans_BranchID INT NOT NULL,
+		loans_CardID INT NOT NULL,
+		loans_DateOut VARCHAR(50) NOT NULL,
+		loans_DueDate VARCHAR(50) NOT NULL,
+		FOREIGN KEY (loans_BookID) REFERENCES Books(BookID) ON UPDATE CASCADE ON DELETE CASCADE,
+		FOREIGN KEY (loans_BranchID) REFERENCES LibaryBranch(BranchID) ON UPDATE CASCADE ON DELETE CASCADE,
+		FOREIGN KEY (loans_CardID ) REFERENCES Borrower(CardID) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+6)-BookCopies :
+
+ 
+CREATE TABLE BookCopies (
+		CopyID INT PRIMARY KEY NOT NULL auto_increment,
+		Copy_BookID INT NOT NULL,  
+		Copy_BranchID INT NOT NULL,
+		Copy_None INT NOT NULL,
+        FOREIGN KEY (Copy_BookID) REFERENCES Books(BookID) ON UPDATE CASCADE ON DELETE CASCADE,
+        FOREIGN KEY (Copy_BranchID) REFERENCES LibaryBranch(BranchID) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+
+7)-Authors : 
+
+CREATE TABLE Authors (
+		AuthorID INT PRIMARY KEY NOT NULL auto_increment,
+		Authors_BookID INT NOT NULL,
+		AuthorName VARCHAR(50) NOT NULL,
+         FOREIGN KEY (Authors_BookID) REFERENCES Books(BookID) ON UPDATE CASCADE ON DELETE CASCADE
+        
+);
